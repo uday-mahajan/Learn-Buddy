@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LearnBuddy - Preferences</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary: #8b5cf6;
+      --accent: #f0f0f0;
+      --danger: #ef4444;
+      --success: #10b981;
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --glass-header: rgba(255, 255, 255, 0.15);
+      --text-light: #f0f0f0;
+      --text-muted: #cccccc;
+      --border-radius: 12px;
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      padding: 40px 20px;
+      background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #000000);
+      background-size: 400% 400%;
+      animation: aurora 15s ease infinite;
+      color: var(--text-light);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    @keyframes aurora {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Header & Navigation */
+    .navbar {
+      width: 100%;
+      max-width: 850px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .logo i {
+      color: var(--primary);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: var(--transition);
+      font-weight: 500;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: var(--text-light);
+    }
+
+    .nav-link.active {
+      position: relative;
+    }
+
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+
+    /* Main Container */
+    .preferences-container {
+      width: 100%;
+      max-width: 850px;
+    }
+
+    .preferences-card {
+      background: var(--glass-bg);
+      border-radius: var(--border-radius);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: var(--transition);
+    }
+
+    .preferences-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .preferences-header {
+      background: var(--glass-header);
+      color: white;
+      padding: 25px 30px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .preferences-header h2 {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .preferences-header h2 i {
+      color: var(--primary);
+    }
+
+    .preferences-header p {
+      opacity: 0.9;
+      font-size: 15px;
+    }
+
+    .preferences-form {
+      padding: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 28px;
+    }
+
+    .form-group-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .form-group-title i {
+      color: var(--primary);
+    }
+
+    label {
+      display: block;
+      font-weight: 500;
+      color: var(--text-light);
+    }
+
+    .form-help {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .subject-input-container {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: var(--border-radius);
+      font-size: 15px;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-light);
+      transition: var(--transition);
+    }
+
+    .form-control:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+      outline: none;
+    }
+
+    ::placeholder {
+      color: var(--text-muted);
+      opacity: 1;
+    }
+
+    .btn {
+      padding: 12px 20px;
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-add {
+      background: var(--primary);
+      color: white;
+      min-width: 100px;
+    }
+
+    .btn-add:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn-save {
+      background: var(--primary);
+      color: white;
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+
+    .btn-save:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn-save:active {
+      transform: translateY(0);
+    }
+
+    #subjects-list {
+      list-style: none;
+      margin: 15px 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .subject-item {
+      background: rgba(99, 102, 241, 0.2);
+      border-radius: 20px;
+      padding: 8px 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-light);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      transition: var(--transition);
+    }
+
+    .subject-item:hover {
+      background: rgba(99, 102, 241, 0.3);
+    }
+
+    .btn-remove {
+      background: none;
+      border: none;
+      color: var(--text-light);
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      opacity: 0.7;
+      transition: var(--transition);
+    }
+
+    .btn-remove:hover {
+      color: var(--danger);
+      opacity: 1;
+    }
+
+    select.form-control {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 15px center;
+      background-size: 15px;
+    }
+
+    /* Time preference section */
+    .time-preferences {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .time-option {
+      position: relative;
+    }
+
+    .time-option input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .time-label {
+      display: block;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: var(--border-radius);
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .time-option input:checked + .time-label {
+      background: rgba(99, 102, 241, 0.3);
+      border-color: var(--primary);
+    }
+
+    .time-label:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Slider component */
+    .slider-container {
+      margin-top: 15px;
+    }
+
+    .slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 5px;
+      outline: none;
+      margin-bottom: 10px;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+      border: 2px solid white;
+      transition: var(--transition);
+    }
+
+    .slider::-webkit-slider-thumb:hover {
+      transform: scale(1.1);
+      background: var(--primary-dark);
+    }
+
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    /* Media Queries */
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .nav-links {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 20px 10px;
+      }
+      
+      .preferences-form {
+        padding: 20px;
+      }
+      
+      .time-preferences {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .preferences-header h2 {
+        font-size: 20px;
+      }
+      
+      .btn-save {
+        font-size: 15px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+    }
+
+    /* Toast notifications */
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .toast {
+      min-width: 250px;
+      padding: 15px 20px;
+      border-radius: 8px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      color: white;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transform: translateX(120%);
+      transition: transform 0.3s ease;
+      border-left: 4px solid transparent;
+    }
+
+    .toast.show {
+      transform: translateX(0);
+    }
+
+    .toast-success {
+      border-left-color: var(--success);
+    }
+
+    .toast-success i {
+      color: var(--success);
+    }
+
+    .toast-error {
+      border-left-color: var(--danger);
+    }
+
+    .toast-error i {
+      color: var(--danger);
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="logo">
+      <i class="fas fa-graduation-cap"></i>
+      <span>LearnBuddy</span>
+    </div>
+  </nav>
+
+  <div class="preferences-container">
+    <div class="preferences-card">
+      <div class="preferences-header">
+        <h2><i class="fas fa-sliders"></i> Personalize Your Learning Experience</h2>
+        <p>Tell us your preferences to get the best course recommendations</p>
+      </div>
+
+      <div class="preferences-form">
+        <div class="form-group">
+          <div class="form-group-title">
+            <i class="fas fa-tags"></i>
+            <label for="subjects">Your Preferred Subjects</label>
+          </div>
+          <p class="form-help">Select at least 3 subjects to get more personalized recommendations</p>
+          <div class="subject-input-container">
+            <input type="text" id="subjects" class="form-control" placeholder="Type a subject and press Enter">
+            <button class="btn btn-add" type="button">
+              <i class="fas fa-plus"></i>
+              <span>Add</span>
+            </button>
+          </div>
+          <ul id="subjects-list"></ul>
+        </div>
+
+        <div class="form-group">
+          <div class="form-group-title">
+            <i class="fas fa-chart-line"></i>
+            <label for="level">Your Skill Level</label>
+          </div>
+          <select id="level" class="form-control">
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
+          </select>
+        </div>
+
+        <button id="save-btn" class="btn btn-save">
+          <i class="fas fa-save"></i>
+          <span class="btn-text">Save Preferences</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notifications container -->
+  <div class="toast-container"></div>
+<script src="preferences.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const subjectInput = document.getElementById('subjects');
+      const subjectsList = document.getElementById('subjects-list');
+      const addButton = document.querySelector('.btn-add');
+      const saveButton = document.getElementById('save-btn');
+      const slider = document.getElementById('duration');
+      
+      // Sample suggested subjects
+      const suggestedSubjects = [
+        'Web Development', 'Python', 'Machine Learning', 'UI/UX Design', 
+        'Data Science', 'JavaScript', 'Mobile App Development', 'Digital Marketing',
+        'Graphic Design', 'Cloud Computing', 'Cybersecurity', 'Artificial Intelligence'
+      ];
+      
+      // Add some pre-populated subjects for better UX
+      addSubject('Web Development');
+      addSubject('Python');
+      
+      // Handle add button click
+      addButton.addEventListener('click', function() {
+        const subject = subjectInput.value.trim();
+        if (subject) {
+          addSubject(subject);
+          subjectInput.value = '';
+        } else {
+          showToast('Please enter a subject', 'error');
+        }
+        subjectInput.focus();
+      });
+      
+      // Handle input keypress (Enter)
+      subjectInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          addButton.click();
+        }
+      });
+      
+      // Save preferences
+      saveButton.addEventListener('click', function() {
+        const subjects = Array.from(subjectsList.querySelectorAll('.subject-item')).map(item => 
+          item.textContent.replace('×', '').trim()
+        );
+        
+        const level = document.getElementById('level').value;
+        
+        const timePreferences = Array.from(document.querySelectorAll('input[name="time"]:checked')).map(
+          checkbox => checkbox.value
+        );
+        
+        const duration = slider.value;
+        
+        // Validate form
+        if (subjects.length < 1) {
+          showToast('Please add at least one subject', 'error');
+          return;
+        }
+        
+        // Save preferences (simulate API call)
+        saveButton.disabled = true;
+        saveButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+        
+        setTimeout(() => {
+          // Simulating successful save
+          console.log('Preferences saved:', { subjects, level, timePreferences, duration });
+          saveButton.disabled = false;
+          saveButton.innerHTML = '<i class="fas fa-check"></i> Preferences Saved';
+          
+          showToast('Your preferences have been saved successfully!', 'success');
+          
+          // Reset button text after delay
+          setTimeout(() => {
+            saveButton.innerHTML = '<i class="fas fa-save"></i> Save Preferences';
+          }, 2000);
+        }, 1500);
+      });
+      
+      // Function to add a subject
+      function addSubject(subject) {
+        // Check if subject already exists
+        const existingSubjects = Array.from(subjectsList.querySelectorAll('.subject-item')).map(
+          item => item.textContent.replace('×', '').trim().toLowerCase()
+        );
+        
+        if (existingSubjects.includes(subject.toLowerCase())) {
+          showToast('This subject is already in your list', 'error');
+          return;
+        }
+        
+        const li = document.createElement('li');
+        li.className = 'subject-item';
+        li.innerHTML = `
+          ${subject}
+          <button class="btn-remove" aria-label="Remove subject">
+            <i class="fas fa-times"></i>
+          </button>
+        `;
+        
+        li.querySelector('.btn-remove').addEventListener('click', function() {
+          li.remove();
+        });
+        
+        subjectsList.appendChild(li);
+      }
+      
+      // Toast notification function
+      function showToast(message, type = 'success') {
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        
+        const icon = type === 'success' ? 'check-circle' : 'exclamation-circle';
+        
+        toast.innerHTML = `
+          <i class="fas fa-${icon}"></i>
+          <span>${message}</span>
+        `;
+        
+        document.querySelector('.toast-container').appendChild(toast);
+        
+        // Force reflow
+        toast.offsetHeight;
+        
+        // Show toast
+        setTimeout(() => toast.classList.add('show'), 10);
+        
+        // Hide and remove after 4 seconds
+        setTimeout(() => {
+          toast.classList.remove('show');
+          setTimeout(() => toast.remove(), 300);
+        }, 4000);
+      }
+      
+      // Handle initial placeholder subjects (for better UX)
+      if (subjectsList.children.length === 0) {
+        const randomSubjects = getRandomItems(suggestedSubjects, 2);
+        randomSubjects.forEach(subject => addSubject(subject));
+      }
+      
+      // Helper to get random items from array
+      function getRandomItems(array, count) {
+        const shuffled = [...array].sort(() => 0.5 - Math.random());
+        return shuffled.slice(0, count);
+      }
+    });
+  </script>
+</body>
+</html>

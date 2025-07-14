@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LearnBuddy Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-light: #818cf8;
+      --primary-dark: #3730a3;
+      --secondary: #10b981;
+      --dark: #1f2937;
+      --light: #f3f4f6;
+      --gray: #9ca3af;
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      font-family: 'Outfit', sans-serif;
+      background: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #000000);
+      background-size: 400% 400%;
+      animation: aurora 15s ease infinite;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    @keyframes aurora {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .logo i {
+      color: var(--primary-light);
+    }
+
+    .search-container {
+      display: flex;
+      justify-content: center;
+      margin: 30px auto;
+      gap: 10px;
+      max-width: 600px;
+      position: relative;
+    }
+
+    .search-container input {
+      width: 100%;
+      padding: 14px 20px;
+      padding-left: 45px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.1);
+      outline: none;
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      font-size: 16px;
+      transition: var(--transition);
+    }
+
+    .search-container input:focus {
+      border-color: var(--primary-light);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.25);
+    }
+
+    .search-container input::placeholder {
+      color: rgba(255,255,255,0.6);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255,255,255,0.6);
+    }
+
+    .btn {
+      padding: 12px 18px;
+      border: none;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.1);
+      color: white;
+      backdrop-filter: blur(10px);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .filter-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .filter-tab {
+      padding: 8px 16px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.1);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .filter-tab:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    .filter-tab.active {
+      background: var(--primary);
+      font-weight: 500;
+    }
+
+    .recommendations {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(20px);
+      padding: 25px;
+      transition: var(--transition);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .card-type {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .card-type.course {
+      background: rgba(79, 70, 229, 0.2);
+      color: var(--primary-light);
+    }
+
+    .card-type.book {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+    }
+
+    .card-type.video {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+    }
+
+    .card-rating {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .card-rating i {
+      color: #fbbf24;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+
+    .card-info {
+      color: var(--gray);
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-info i {
+      width: 16px;
+      color: var(--gray);
+    }
+
+    .card-footer {
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 15px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 15px;
+    }
+
+    .card-meta {
+      font-size: 14px;
+      color: var(--gray);
+    }
+
+    .card-link {
+      background: rgba(255,255,255,0.1);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .card-link:hover {
+      background: var(--primary);
+    }
+
+    .card-placeholder {
+      height: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      margin-bottom: 10px;
+      width: 100%;
+    }
+
+    .card-placeholder:nth-child(even) {
+      width: 70%;
+    }
+
+    .loader-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 300px;
+    }
+
+    .loader {
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-top: 3px solid var(--primary-light);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 40px 0;
+      color: var(--gray);
+    }
+
+    .no-results i {
+      font-size: 48px;
+      margin-bottom: 15px;
+      color: rgba(255, 255, 255, 0.2);
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 40px;
+      gap: 10px;
+    }
+
+    .pagination-btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .pagination-btn:hover, .pagination-btn.active {
+      background: var(--primary);
+    }
+
+    .pagination-btn.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px 0;
+      color: var(--gray);
+      margin-top: 40px;
+      font-size: 14px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 768px) {
+      .recommendations {
+        grid-template-columns: 1fr;
+      }
+
+      .filter-tabs {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <i class="fas fa-graduation-cap"></i>
+        <span>LearnBuddy</span>
+      </div>
+    </header>
+
+    <div class="search-container">
+      <i class="fas fa-search search-icon"></i>
+      <input type="text" id="search-query" placeholder="What do you want to learn today?" />
+      <div class="btn-group">
+        <button class="btn btn-primary" id="search-btn">Search</button>
+        <button class="btn btn-secondary" id="reset-btn">Reset</button>
+      </div>
+    </div>
+
+    <div class="filter-tabs">
+      <div class="filter-tab active" data-filter="all">All</div>
+      <div class="filter-tab" data-filter="courses">Courses</div>
+      <div class="filter-tab" data-filter="books">Books</div>
+      <div class="filter-tab" data-filter="videos">Videos</div>
+    </div>
+
+    <div id="recommendations-container">
+      <!-- Content will be loaded here -->
+    </div>
+
+    <div class="pagination" id="pagination">
+      <!-- Pagination will be loaded here -->
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 LearnBuddy - Your personal learning assistant</p>
+  </footer>
+
+  <script>
+    // State management
+    let allRecommendations = {
+      courses: [],
+      books: [],
+      videos: []
+    };
+    let currentFilter = 'all';
+    let currentPage = 1;
+    const itemsPerPage = 6;
+
+    // DOM elements
+    const searchInput = document.getElementById('search-query');
+    const searchBtn = document.getElementById('search-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const recommendationsContainer = document.getElementById('recommendations-container');
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    const paginationContainer = document.getElementById('pagination');
+
+    // Event listeners
+    searchBtn.addEventListener('click', searchRecommendations);
+    resetBtn.addEventListener('click', fetchDefaultRecommendations);
+    searchInput.addEventListener('keyup', (e) => {
+      if (e.key === 'Enter') searchRecommendations();
+    });
+
+    filterTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        filterTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentFilter = tab.dataset.filter;
+        currentPage = 1;
+        renderRecommendations();
+      });
+    });
+
+    // Functions
+    async function fetchDefaultRecommendations() {
+      showLoader();
+      
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch("http://localhost:5000/api/ml/recommendations", {
+          method: 'GET',
+          headers: { Authorization: `Bearer ${token}` }
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+          allRecommendations = {
+            courses: data.courses || [],
+            books: data.books || [],
+            videos: data.videos || []
+          };
+          currentPage = 1;
+          renderRecommendations();
+        } else {
+          showError("Failed to load recommendations");
+        }
+      } catch (error) {
+        showError("An error occurred while fetching recommendations");
+        console.error(error);
+      }
+    }
+
+    async function searchRecommendations() {
+      const query = searchInput.value.trim();
+      if (!query) {
+        showNotification("Please enter a search term");
+        return;
+      }
+
+      showLoader();
+      
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch("http://localhost:5000/api/ml/search", {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ query })
+        });
+
+        const data = await response.json();
+        
+        if (data.success) {
+          allRecommendations = {
+            courses: data.courses || [],
+            books: data.books || [],
+            videos: data.videos || []
+          };
+          currentPage = 1;
+          renderRecommendations();
+        } else {
+          showError("Failed to find recommendations for your search");
+        }
+      } catch (error) {
+        showError("An error occurred while searching");
+        console.error(error);
+      }
+    }
+
+    function renderRecommendations() {
+      const filteredData = getFilteredData();
+      const totalItems = filteredData.length;
+      const totalPages = Math.ceil(totalItems / itemsPerPage);
+      
+      // Adjust current page if necessary
+      if (currentPage > totalPages && totalPages > 0) {
+        currentPage = totalPages;
+      }
+      
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+      const currentItems = filteredData.slice(startIndex, endIndex);
+      
+      recommendationsContainer.innerHTML = '';
+      
+      if (totalItems === 0) {
+        renderNoResults();
+        paginationContainer.innerHTML = '';
+        return;
+      }
+      
+      // Create div for recommendations grid
+      const recommendationsGrid = document.createElement('div');
+      recommendationsGrid.className = 'recommendations';
+      
+      // Add cards to the grid
+      currentItems.forEach(item => {
+        const card = createCard(item);
+        recommendationsGrid.appendChild(card);
+      });
+      
+      recommendationsContainer.appendChild(recommendationsGrid);
+      renderPagination(totalPages);
+    }
+
+    function getFilteredData() {
+      let filteredData = [];
+      
+      if (currentFilter === 'all') {
+        // Interleave the different types
+        const maxLength = Math.max(
+          allRecommendations.courses.length,
+          allRecommendations.books.length,
+          allRecommendations.videos.length
+        );
+        
+        for (let i = 0; i < maxLength; i++) {
+          if (i < allRecommendations.courses.length) {
+            filteredData.push({...allRecommendations.courses[i], type: 'course'});
+          }
+          if (i < allRecommendations.books.length) {
+            filteredData.push({...allRecommendations.books[i], type: 'book'});
+          }
+          if (i < allRecommendations.videos.length) {
+            filteredData.push({...allRecommendations.videos[i], type: 'video'});
+          }
+        }
+      } else {
+        // Single type filter
+        const type = currentFilter.slice(0, -1); // Remove trailing 's'
+        filteredData = allRecommendations[currentFilter].map(item => ({...item, type}));
+      }
+      
+      return filteredData;
+    }
+
+    function createCard(item) {
+      const card = document.createElement('div');
+      card.className = 'card';
+      
+      let cardContent = '';
+      
+      // Card header with type and rating
+      cardContent += `
+        <div class="card-header">
+          <span class="card-type ${item.type}">${capitalizeFirstLetter(item.type)}</span>
+          <div class="card-rating">
+            ${getRatingStars(item.rating || 0)}
+            <span>${item.rating || 'N/A'}</span>
+          </div>
+        </div>
+      `;
+      
+      // Card body based on type
+      if (item.type === 'course') {
+        cardContent += `
+          <h3 class="card-title">${item.name || 'Untitled Course'}</h3>
+          <div class="card-info"><i class="fas fa-signal"></i> ${item.level || 'All Levels'}</div>
+          <div class="card-info"><i class="fas fa-book"></i> ${item.num_lectures || 0} lectures</div>
+        `;
+      } else if (item.type === 'book') {
+        cardContent += `
+          <h3 class="card-title">${item.title || 'Untitled Book'}</h3>
+          <div class="card-info"><i class="fas fa-user"></i> ${item.authors || 'Unknown Author'}</div>
+          <div class="card-info"><i class="fas fa-calendar"></i> Published: ${item.year || 'N/A'}</div>
+        `;
+      } else if (item.type === 'video') {
+        cardContent += `
+          <h3 class="card-title">${item.title || 'Untitled Video'}</h3>
+          <div class="card-info"><i class="fas fa-user"></i> ${item.channel || 'Unknown Channel'}</div>
+          <div class="card-info"><i class="fas fa-eye"></i> ${formatViews(item.views || 0)}</div>
+        `;
+      }
+      
+      // Card footer
+      cardContent += `
+        <div class="card-footer">
+          <div class="card-meta">
+            ${item.type === 'course' ? `${item.provider || 'Online'}` : ''}
+            ${item.type === 'book' ? `${item.pages || '---'} pages` : ''}
+            ${item.type === 'video' ? `${formatDuration(item.duration)}` : ''}
+          </div>
+          <a href="${getItemUrl(item)}" class="card-link" target="_blank">
+            ${item.type === 'course' ? 'Enroll' : ''}
+            ${item.type === 'book' ? 'Read' : ''}
+            ${item.type === 'video' ? 'Watch' : ''}
+            <i class="fas fa-external-link-alt"></i>
+          </a>
+        </div>
+      `;
+      
+      card.innerHTML = cardContent;
+      return card;
+    }
+
+    function renderPagination(totalPages) {
+      if (totalPages <= 1) {
+        paginationContainer.innerHTML = '';
+        return;
+      }
+      
+      paginationContainer.innerHTML = '';
+      
+      // Previous button
+      const prevBtn = document.createElement('div');
+      prevBtn.className = `pagination-btn ${currentPage === 1 ? 'disabled' : ''}`;
+      prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+      if (currentPage > 1) {
+        prevBtn.addEventListener('click', () => {
+          currentPage--;
+          renderRecommendations();
+          scrollToTop();
+        });
+      }
+      paginationContainer.appendChild(prevBtn);
+      
+      // Page numbers
+      const maxVisiblePages = 5;
+      let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+      let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+      
+      if (endPage - startPage + 1 < maxVisiblePages) {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+      }
+      
+      for (let i = startPage; i <= endPage; i++) {
+        const pageBtn = document.createElement('div');
+        pageBtn.className = `pagination-btn ${i === currentPage ? 'active' : ''}`;
+        pageBtn.textContent = i;
+        pageBtn.addEventListener('click', () => {
+          currentPage = i;
+          renderRecommendations();
+          scrollToTop();
+        });
+        paginationContainer.appendChild(pageBtn);
+      }
+      
+      // Next button
+      const nextBtn = document.createElement('div');
+      nextBtn.className = `pagination-btn ${currentPage === totalPages ? 'disabled' : ''}`;
+      nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+      if (currentPage < totalPages) {
+        nextBtn.addEventListener('click', () => {
+          currentPage++;
+          renderRecommendations();
+          scrollToTop();
+        });
+      }
+      paginationContainer.appendChild(nextBtn);
+    }
+
+    function renderNoResults() {
+      recommendationsContainer.innerHTML = `
+        <div class="no-results">
+          <i class="fas fa-search"></i>
+          <h3>No recommendations found</h3>
+          <p>Try adjusting your search or exploring different topics</p>
+        </div>
+      `;
+    }
+
+    function showLoader() {
+      recommendationsContainer.innerHTML = `
+        <div class="loader-container">
+          <div class="loader"></div>
+          <p>Finding the best learning resources for you...</p>
+        </div>
+      `;
+    }
+
+    function showError(message) {
+      recommendationsContainer.innerHTML = `
+        <div class="no-results">
+          <i class="fas fa-exclamation-circle"></i>
+          <h3>Oops! Something went wrong</h3>
+          <p>${message}</p>
+        </div>
+      `;
+    }
+
+    function showNotification(message) {
+      alert(message); // Simple implementation for now
+    }
+
+    // Helper functions
+    function capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    function getRatingStars(rating) {
+      const fullStars = Math.floor(rating);
+      const halfStar = rating % 1 >= 0.5;
+      const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+      
+      let stars = '';
+      for (let i = 0; i < fullStars; i++) {
+        stars += '<i class="fas fa-star"></i>';
+      }
+      if (halfStar) {
+        stars += '<i class="fas fa-star-half-alt"></i>';
+      }
+      for (let i = 0; i < emptyStars; i++) {
+        stars += '<i class="far fa-star"></i>';
+      }
+      
+      return stars;
+    }
+
+    function formatViews(views) {
+      if (views >= 1000000) {
+        return (views / 1000000).toFixed(1) + 'M views';
+      } else if (views >= 1000) {
+        return (views / 1000).toFixed(1) + 'K views';
+      } else {
+        return views + ' views';
+      }
+    }
+
+    function formatDuration(seconds) {
+      if (!seconds) return 'N/A';
+      
+      const minutes = Math.floor(seconds / 60);
+      if (minutes < 60) {
+        return `${minutes} min`;
+      } else {
+        const hours = Math.floor(minutes / 60);
+        const remainingMinutes = minutes % 60;
+        return `${hours}h ${remainingMinutes}m`;
+      }
+    }
+
+    function getItemUrl(item) {
+      if (item.type === 'video' && item.url) {
+        return item.url;
+      }
+      return '#'; // Placeholder for courses and books
+    }
+
+    function scrollToTop() {
+      window.scrollTo({
+        top: recommendationsContainer.offsetTop - 100,
+        behavior: 'smooth'
+      });
+    }
+
+    // Initialize
+    fetchDefaultRecommendations();
+  </script>
+</body>
+</html>

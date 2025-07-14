@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LearnBuddy - Login / Signup</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-gradient: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #000000);
+      --glass-bg: rgba(255, 255, 255, 0.07);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --text-primary: #ffffff;
+      --text-secondary: #cccccc;
+      --accent: #89f7fe;
+      --button-bg: #ffffff;
+      --button-text: #302b63;
+      --border-radius: 12px;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Outfit', sans-serif;
+      overflow: hidden;
+    }
+
+    /* Dark Aurora Background */
+    body {
+      background: var(--primary-gradient);
+      background-size: 400% 400%;
+      animation: aurora 15s ease infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    @keyframes aurora {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+    
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      animation: float 6s infinite ease-in-out;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+      25% { opacity: 0.8; }
+      50% { transform: translateY(-80px) translateX(40px); opacity: 0.2; }
+      75% { opacity: 0.6; }
+    }
+
+    .container {
+      width: 380px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--glass-border);
+      padding: 40px 30px;
+      animation: fadeInUp 1s ease;
+      z-index: 1;
+      max-width: 90%;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .logo img {
+      width: 50px;
+      height: 50px;
+      margin-right: 15px;
+    }
+    
+    .logo-text {
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    
+    .logo-accent {
+      color: var(--accent);
+    }
+
+    h2 {
+      color: var(--text-primary);
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 600;
+      font-size: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+      position: relative;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--text-primary);
+      font-weight: 500;
+      font-size: 14px;
+    }
+    
+    .form-group i {
+      position: absolute;
+      left: 16px;
+      top: 43px;
+      color: var(--text-secondary);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 14px 14px 14px 45px;
+      border: none;
+      border-radius: var(--border-radius);
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-primary);
+      font-size: 15px;
+      outline: none;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    .form-control::placeholder {
+      color: var(--text-secondary);
+    }
+
+    .form-control:focus {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: var(--button-bg);
+      color: var(--button-text);
+      font-weight: 600;
+      font-size: 16px;
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .toggle-text {
+      margin-top: 25px;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .toggle-text a {
+      color: var(--accent);
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    
+    .toggle-text a:hover {
+      text-decoration: underline;
+      opacity: 0.9;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      margin-left: 10px;
+      vertical-align: middle;
+      display: none;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .alert {
+      color: #ff9999;
+      background: rgba(255, 77, 77, 0.15);
+      border-radius: 10px;
+      padding: 12px 15px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      text-align: center;
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .forgot-password {
+      text-align: right;
+      margin-top: -10px;
+      margin-bottom: 20px;
+      font-size: 13px;
+    }
+    
+    .forgot-password a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    
+    .forgot-password a:hover {
+      color: var(--accent);
+    }
+    
+    @media (max-width: 480px) {
+      .container {
+        width: 90%;
+        padding: 25px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Particle background effect -->
+  <div class="particles">
+    <div class="particle" style="width: 3px; height: 3px; top: 20%; left: 10%;"></div>
+    <div class="particle" style="width: 4px; height: 4px; top: 30%; left: 25%; animation-delay: 1s;"></div>
+    <div class="particle" style="width: 5px; height: 5px; top: 70%; left: 40%; animation-delay: 2s;"></div>
+    <div class="particle" style="width: 3px; height: 3px; top: 40%; left: 65%; animation-delay: 3s;"></div>
+    <div class="particle" style="width: 4px; height: 4px; top: 50%; left: 80%; animation-delay: 4s;"></div>
+    <div class="particle" style="width: 6px; height: 6px; top: 10%; left: 90%; animation-delay: 1.5s;"></div>
+    <div class="particle" style="width: 3px; height: 3px; top: 85%; left: 15%; animation-delay: 2.5s;"></div>
+    <div class="particle" style="width: 5px; height: 5px; top: 60%; left: 75%; animation-delay: 3.5s;"></div>
+  </div>
+
+  <div class="container" id="login-container">
+    <div class="logo">
+      <div class="logo-text">Learn<span class="logo-accent">Buddy</span></div>
+    </div>
+    <h2>Welcome back!</h2>
+    <div class="form-container">
+      <div id="login-error" class="alert"></div>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <i class="fas fa-user"></i>
+          <input id="username" class="form-control" placeholder="Enter your username" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <i class="fas fa-lock"></i>
+          <input id="password" type="password" class="form-control" placeholder="Enter your password" required>
+        </div>
+        <div class="forgot-password">
+          <a href="#" id="forgot-password">Forgot password?</a>
+        </div>
+        <button id="login-btn" class="btn">
+          <span id="login-btn-text">Log In</span>
+          <div id="login-spinner" class="spinner"></div>
+        </button>
+      </form>
+      <p class="toggle-text">Don't have an account? <a href="#" id="show-signup">Sign up</a></p>
+    </div>
+  </div>
+
+  <div class="container" id="signup-container" style="display:none">
+    <div class="logo">
+      <div class="logo-text">Learn<span class="logo-accent">Buddy</span></div>
+    </div>
+    <h2>Create Account</h2>
+    <div class="form-container">
+      <div id="signup-error" class="alert"></div>
+      <form id="signup-form">
+        <div class="form-group">
+          <label for="signup-username">Username</label>
+          <i class="fas fa-user"></i>
+          <input id="signup-username" class="form-control" placeholder="Choose a username" required>
+        </div>
+        <div class="form-group">
+          <label for="signup-email">Email</label>
+          <i class="fas fa-envelope"></i>
+          <input id="signup-email" type="email" class="form-control" placeholder="Your email address" required>
+        </div>
+        <div class="form-group">
+          <label for="signup-password">Password</label>
+          <i class="fas fa-lock"></i>
+          <input id="signup-password" type="password" class="form-control" placeholder="Create a password" required>
+        </div>
+        <button id="signup-btn" class="btn">
+          <span id="signup-btn-text">Sign Up</span>
+          <div id="signup-spinner" class="spinner"></div>
+        </button>
+      </form>
+      <p class="toggle-text">Already have an account? <a href="#" id="show-login">Log in</a></p>
+    </div>
+  </div>
+
+  <script>
+    // Toggle between login and signup forms
+    document.getElementById('show-signup').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('login-container').style.display = 'none';
+      document.getElementById('signup-container').style.display = 'block';
+    });
+    
+    document.getElementById('show-login').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('signup-container').style.display = 'none';
+      document.getElementById('login-container').style.display = 'block';
+    });
+    
+    // Login form submission
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      
+      // Display spinner
+      document.getElementById('login-btn-text').style.opacity = '0.7';
+      document.getElementById('login-spinner').style.display = 'inline-block';
+      
+      // Simulate API call (replace with your actual login API call)
+      setTimeout(() => {
+        // For demo purposes - showing an error
+        // In real implementation, you'd handle the API response
+        document.getElementById('login-error').textContent = 'Invalid username or password.';
+        document.getElementById('login-error').style.display = 'block';
+        
+        // Hide spinner
+        document.getElementById('login-btn-text').style.opacity = '1';
+        document.getElementById('login-spinner').style.display = 'none';
+        
+        // Comment the error and uncomment this to simulate successful login
+        /*
+        localStorage.setItem('token', 'sample-jwt-token');
+        window.location.href = 'dashboard.html';
+        */
+      }, 1500);
+    });
+    
+    
+  </script>
+   <script src="login.js"></script>
+  <script src="js/signup.js"></script>
+</body>
+</html>

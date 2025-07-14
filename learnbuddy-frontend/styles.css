@@ -1,0 +1,205 @@
+:root {
+  /* Color Variables */
+  --primary-gradient: linear-gradient(-45deg, #0f0c29, #302b63, #24243e, #000000);
+  --glass-bg: rgba(255, 255, 255, 0.07);
+  --glass-bg-darker: rgba(0, 0, 0, 0.4);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-header: rgba(255, 255, 255, 0.1);
+  --text-light: #ffffff;
+  --text-muted: #cccccc;
+  --accent: #89f7fe;
+  --accent-hover: #67d5dd;
+  --danger: #ff6b6b;
+  
+  /* Spacing & Layout */
+  --border-radius-sm: 10px;
+  --border-radius: 12px;
+  --border-radius-lg: 20px;
+  --container-padding: 30px;
+  
+  /* Animation */
+  --transition-speed: 0.3s;
+  
+  /* Typography */
+  --font-family: 'Outfit', sans-serif;
+}
+
+/* Global Styles */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: var(--font-family);
+  background: var(--primary-gradient);
+  background-size: 400% 400%;
+  animation: aurora 15s ease infinite;
+  color: var(--text-light);
+  overflow-x: hidden;
+}
+
+@keyframes aurora {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Glass Card Component */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  border-radius: var(--border-radius-lg);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--glass-border);
+  overflow: hidden;
+}
+
+/* Form Controls */
+.form-control {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--border-radius);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-light);
+  font-size: 16px;
+  transition: all var(--transition-speed);
+  outline: none;
+}
+
+.form-control:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--accent);
+  transform: scale(1.01);
+}
+
+.form-control::placeholder {
+  color: var(--text-muted);
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+/* Buttons */
+.btn {
+  padding: 14px;
+  border: none;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all var(--transition-speed);
+  text-align: center;
+}
+
+.btn-primary {
+  background: var(--text-light);
+  color: #302b63;
+}
+
+.btn-primary:hover {
+  transform: scale(1.03);
+  background: #f0f0f0;
+}
+
+.btn-glass {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--text-light);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-glass:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Links */
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color var(--transition-speed);
+}
+
+a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+
+/* Loader */
+.loader {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid var(--text-light);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  font-weight: 600;
+  color: var(--text-light);
+}
+
+/* Navigation */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: var(--glass-header);
+  backdrop-filter: blur(10px);
+  margin-bottom: 30px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-link {
+  color: var(--text-light);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all var(--transition-speed);
+}
+
+.nav-link:hover, .nav-link.active {
+  color: var(--accent);
+}
+
+/* Alert / Notifications */
+.alert {
+  padding: 12px 15px;
+  border-radius: var(--border-radius);
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.alert-danger {
+  background: rgba(255, 107, 107, 0.2);
+  color: #ffbbbb;
+}
+
+.alert-success {
+  background: rgba(46, 213, 115, 0.2);
+  color: #a0ffb3;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    width: 95%;
+    padding: 20px;
+  }
+  
+  .form-control, .btn {
+    padding: 12px;
+  }
+}
